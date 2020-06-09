@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>vue swiper</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+    <style>
+      div,
+      ul,
+      li,
+      span,
+      img {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        box-sizing: border-box;
+      }
+      .vueBox {
+        width: 600px;
+      }
+      .swiper-box {
+        position: relative;
+        width: 381px;
+        height: 245px;
+        background-color: #ccc;
+      }
+      .swiper-box ul {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0px;
+        overflow: hidden;
+      }
+      .swiper-box ul li {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+      .swiper-box ul li:nth-child(odd) {
+        background-color: cyan;
+      }
+      .swiper-box ul li:nth-child(even) {
+        background-color: pink;
+      }
+      .swiper-box ul li img {
+        width: 100%;
+        height: 100%;
+        vertical-align: middle;
+      }
+      .bullet {
+        /*  width: 100%; */
+        height: 30px;
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+      }
+      .bullet span {
+        display: inline-block;
+        margin: 10px;
+        width: 10px;
+        height: 10px;
+        background-color: #a4a4a4;
+        border-radius: 50%;
+      }
+      .bullet span .active {
+        background-color: #fff;
+      }
+      .carousel-enter-active {
+        /* // transform: translateX(0); */
+        animation: bounce-in 1s;
+      }
+      .carousel-leave-active {
+        /* // transform: translateX(-100%); */
+        animation: bounce-in 1s reverse;
+      }
+      @keyframes bounce-in {
+        0% {
+          /* // transform: scale(0); */
+          opacity: 0;
+        }
+        50% {
+          /* // transform: scale(1.5); */
+          opacity: 0.5;
+        }
+        100% {
+          /* // transform: scale(1); */
+          opacity: 1;
+        }
+      }
+      /* // 另外，li要添加position:absolute这个属性，它相对于carousel绝对定位。 */
+    </style>
+  </head>
+  <body>
+    <div class="vueBox">
+      <div class="swiper-box">
+        <transition-group tag="ul" name="carousel">
+          <li
+            v-for="(item, index) in picBox"
+            :key="index"
+            v-show="index === mark"
+          >
+            {{item}}
+          </li>
+        </transition-group>
+        <div class="bullet">
+          <span
+            v-for="(item, index) in picBox.length"
+            :key="index"
+            :class="{ active: index === mark }"
+            @click="change(index)"
+          ></span>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      const vm = new Vue({
+        el: '.vueBox',
+        data: {
+          picBox: 4,
+          mark: 0,
+          len: 4,
+        },
+        created: function () {
+          this.play()
+        },
+        methods: {
+          play() {
+            setInterval(this.autoPlay, 2000)
+          },
+          autoPlay() {
+            this.mark++
+            if (this.mark === this.len) {
+              console.log(111)
+              this.mark = 0
+              return
+            }
+          },
+          change(i) {
+            this.mark = i
+          },
+        },
+      })
+    </script>
+  </body>
+</html>
